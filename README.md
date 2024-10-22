@@ -6,15 +6,15 @@ Um projeto simples e objetivo, onde o administrador pode exibir produtos ou serv
 ```mermaid
 classDiagram
     class Admin {
-        int id
+        Long id
         String email
         String password
-        String telephone
+        String phone
     }
 
     class Card {
-        int id
-        String name
+        Long id
+        String title
         double price
         String description
         String photo
