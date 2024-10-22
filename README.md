@@ -17,7 +17,7 @@ classDiagram
         String title
         double price
         String description
-        String photo
+        String image
     }
 
 Admin "1" *-- "n" Card
