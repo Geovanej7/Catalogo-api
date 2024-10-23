@@ -1,7 +1,7 @@
 package com.catalogo.catalogo_api.service.impl;
 
-import com.catalogo.catalogo_api.domain.model.Admin;
-import com.catalogo.catalogo_api.domain.repository.AdminRepository;
+import com.catalogo.catalogo_api.model.Admin;
+import com.catalogo.catalogo_api.repository.AdminRepository;
 import com.catalogo.catalogo_api.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

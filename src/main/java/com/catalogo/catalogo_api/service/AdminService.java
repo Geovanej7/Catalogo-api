@@ -1,8 +1,8 @@
 package com.catalogo.catalogo_api.service;
 
-import com.catalogo.catalogo_api.domain.model.Admin;
-
 import java.util.List;
+
+import com.catalogo.catalogo_api.model.Admin;
 
 public interface AdminService {
 

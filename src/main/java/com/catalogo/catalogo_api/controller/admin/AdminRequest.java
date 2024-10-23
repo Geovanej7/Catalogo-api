@@ -1,6 +1,6 @@
 package com.catalogo.catalogo_api.controller.admin;
 
-import com.catalogo.catalogo_api.domain.model.Admin;
+import com.catalogo.catalogo_api.model.Admin;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

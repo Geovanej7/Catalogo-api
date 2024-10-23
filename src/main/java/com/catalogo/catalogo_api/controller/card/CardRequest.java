@@ -1,6 +1,6 @@
 package com.catalogo.catalogo_api.controller.card;
 
-import com.catalogo.catalogo_api.domain.model.Card;
+import com.catalogo.catalogo_api.model.Card;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

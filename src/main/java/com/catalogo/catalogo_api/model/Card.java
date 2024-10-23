@@ -1,6 +1,7 @@
-package com.catalogo.catalogo_api.domain.model;
+package com.catalogo.catalogo_api.model;
 
-import com.catalogo.catalogo_api.domain.model.util.AuditableEntity;
+import com.catalogo.catalogo_api.model.util.AuditableEntity;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;

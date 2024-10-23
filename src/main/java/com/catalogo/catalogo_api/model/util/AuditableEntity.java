@@ -1,4 +1,4 @@
-package com.catalogo.catalogo_api.domain.model.util;
+package com.catalogo.catalogo_api.model.util;
 
 import java.time.LocalDate;
 import org.springframework.data.annotation.CreatedDate;

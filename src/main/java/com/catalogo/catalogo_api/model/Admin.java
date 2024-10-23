@@ -1,4 +1,4 @@
-package com.catalogo.catalogo_api.domain.model;
+package com.catalogo.catalogo_api.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -8,7 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.util.List;
-import com.catalogo.catalogo_api.domain.model.util.AuditableEntity;
+
+import com.catalogo.catalogo_api.model.util.AuditableEntity;
 
 @Entity(name = "tb_admin")
 @Builder
