@@ -6,15 +6,15 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import java.util.List;
+import com.catalogo.catalogo_api.domain.model.util.AuditableEntity;
 
 @Entity(name = "tb_admin")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Admin {
+public class Admin extends AuditableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

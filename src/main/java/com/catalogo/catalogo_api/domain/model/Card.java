@@ -1,5 +1,6 @@
 package com.catalogo.catalogo_api.domain.model;
 
+import com.catalogo.catalogo_api.domain.model.util.AuditableEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
@@ -12,7 +13,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Card {
+public class Card extends AuditableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
