@@ -3,23 +3,17 @@ package com.catalogo.catalogo_api.service.impl;
 import com.catalogo.catalogo_api.domain.model.Admin;
 import com.catalogo.catalogo_api.domain.repository.AdminRepository;
 import com.catalogo.catalogo_api.service.AdminService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.util.List;
-import java.util.NoSuchElementException;
+
 
 @Service
 public class AdminServiceImpl implements AdminService {
 
     @Autowired
     private AdminRepository adminRepository;
-
-    /*public AdminServiceImpl(AdminRepository adminRepository){
-        this.adminRepository = adminRepository;
-    }*/
 
     @Override
     public Admin create(Admin adminToCreate) {
@@ -31,11 +25,34 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Admin findById(Long id) {
-        return adminRepository.findById(id).orElseThrow(NoSuchElementException::new);
+        
+        return adminRepository.findById(id).get();
     }
 
     @Override
     public List<Admin> findAll() {
-        return List.of();
+
+        return adminRepository.findAll();
+    }
+
+    @Override
+    public void update(Long id, Admin newAdmin) {
+        
+        Admin adm = adminRepository.findById(id).get();
+        adm.setPhone(newAdmin.getPhone());
+        adm.setPassword(newAdmin.getPassword());
+        adm.setEmail(newAdmin.getEmail());
+
+        adm.setVersion(adm.getVersion()+1);
+        adminRepository.save(adm);
+    }
+
+    @Override
+    public void delete(Long id) {
+       
+        Admin adm = adminRepository.findById(id).get();
+        adm.setEnabled(Boolean.FALSE);
+        adm.setVersion(adm.getVersion()+1);
+        adminRepository.save(adm);
     }
 }

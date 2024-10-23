@@ -12,4 +12,8 @@ public interface AdminService {
 
     List<Admin> findAll();
 
+    void update(Long id, Admin newAdmin);
+
+    void delete(Long id);
+
 }

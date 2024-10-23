@@ -4,20 +4,18 @@ import com.catalogo.catalogo_api.domain.model.util.AuditableEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity(name = "tb_card")
+@Builder
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Card extends AuditableEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     @Column(nullable = false)
     private String title;
