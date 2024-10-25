@@ -1,7 +1,5 @@
 package com.catalogo.catalogo_api.service;
-
 import java.util.List;
-
 import com.catalogo.catalogo_api.model.Admin;
 
 public interface AdminService {

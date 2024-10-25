@@ -42,7 +42,7 @@ public class AdminServiceImpl implements AdminService {
         adm.setPhone(newAdmin.getPhone());
         adm.setPassword(newAdmin.getPassword());
         adm.setEmail(newAdmin.getEmail());
-
+        adm.setLastModifiedDate(LocalDate.now());
         adm.setVersion(adm.getVersion()+1);
         adminRepository.save(adm);
     }
@@ -52,6 +52,7 @@ public class AdminServiceImpl implements AdminService {
        
         Admin adm = adminRepository.findById(id).get();
         adm.setEnabled(Boolean.FALSE);
+        adm.setLastModifiedDate(LocalDate.now());
         adm.setVersion(adm.getVersion()+1);
         adminRepository.save(adm);
     }
