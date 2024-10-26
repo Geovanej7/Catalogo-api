@@ -5,8 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import com.catalogo.catalogo_api.model.Card;
+import com.catalogo.catalogo_api.model.util.CardException;
 import com.catalogo.catalogo_api.repository.CardRepository;
 import com.catalogo.catalogo_api.service.CardService;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class CardServiceImpl implements CardService {
@@ -14,7 +17,7 @@ public class CardServiceImpl implements CardService {
     @Autowired
     private CardRepository cardRepository;
 
-    @Override
+    @Transactional
     public Card create(Card cardToCreate) {
         cardToCreate.setEnabled(Boolean.TRUE);
         cardToCreate.setVersion(1L);
@@ -22,19 +25,23 @@ public class CardServiceImpl implements CardService {
         return cardRepository.save(cardToCreate);
     }
 
-    @Override
+    @Transactional
     public Card findById(Long id) {
-        return cardRepository.findById(id).get();
+        return cardRepository.findById(id)
+        .orElseThrow(() -> CardException.notFound(id));
     }
 
-    @Override
+    @Transactional
     public List<Card> findAll() {
         return cardRepository.findAll();
     }
 
-    @Override
+    @Transactional
     public void update(Long id, Card newCard) {
-        Card card = cardRepository.findById(id).get();
+
+        Card card = cardRepository.findById(id)
+        .orElseThrow(() -> CardException.notFound(id));
+
         card.setTitle(newCard.getTitle());
         card.setPrice(newCard.getPrice());
         card.setDescription(newCard.getDescription());
@@ -44,10 +51,12 @@ public class CardServiceImpl implements CardService {
         cardRepository.save(card);
     }
 
-    @Override
+    @Transactional
     public void delete(Long id) {
         
-        Card card = cardRepository.findById(id).get();
+        Card card = cardRepository.findById(id)
+        .orElseThrow(() -> CardException.notFound(id));
+
         card.setEnabled(Boolean.FALSE);
         card.setLastModifiedDate(LocalDate.now());
         card.setVersion(card.getVersion()+1);

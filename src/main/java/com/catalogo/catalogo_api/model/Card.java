@@ -1,7 +1,7 @@
 package com.catalogo.catalogo_api.model;
 
+import org.hibernate.annotations.SQLRestriction;
 import com.catalogo.catalogo_api.model.util.AuditableEntity;
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity(name = "tb_card")
+@SQLRestriction("enabled = true")
 @Builder
 @Getter
 @Setter

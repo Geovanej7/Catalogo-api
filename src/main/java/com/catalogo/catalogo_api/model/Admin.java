@@ -8,10 +8,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.util.List;
-
+import org.hibernate.annotations.SQLRestriction;
 import com.catalogo.catalogo_api.model.util.AuditableEntity;
 
 @Entity(name = "tb_admin")
+@SQLRestriction("enabled = true")
 @Builder
 @Getter
 @Setter

@@ -40,13 +40,13 @@ public class CardController {
         return cardService.findById(id);
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public ResponseEntity<Card> update(@PathVariable("id")Long id,@RequestBody CardRequest request){
         cardService.update(id,request.build());
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
         cardService.delete(id);
         return ResponseEntity.ok().build();

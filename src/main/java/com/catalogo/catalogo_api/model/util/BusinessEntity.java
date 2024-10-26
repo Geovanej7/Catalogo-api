@@ -23,6 +23,6 @@ public abstract class BusinessEntity implements Serializable {
     private Long id;
     
     @JsonIgnore
-    @Column
+    @Column(name = "enabled")
     private Boolean enabled;
 }
