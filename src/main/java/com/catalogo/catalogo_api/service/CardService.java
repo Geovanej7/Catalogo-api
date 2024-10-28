@@ -4,7 +4,7 @@ import com.catalogo.catalogo_api.model.Card;
 
 public interface CardService {
 
-    Card create(Card cardToCreate);
+    Card create(Long adminId, Card cardToCreate);
 
     Card findById(Long id);
 

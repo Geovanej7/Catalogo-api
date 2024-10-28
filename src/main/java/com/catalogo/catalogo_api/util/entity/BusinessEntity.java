@@ -1,4 +1,4 @@
-package com.catalogo.catalogo_api.model.util;
+package com.catalogo.catalogo_api.util.entity;
 
 import java.io.Serializable;
 

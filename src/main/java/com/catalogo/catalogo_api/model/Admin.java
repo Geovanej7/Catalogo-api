@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.util.List;
 import org.hibernate.annotations.SQLRestriction;
-import com.catalogo.catalogo_api.model.util.AuditableEntity;
+
+import com.catalogo.catalogo_api.util.entity.AuditableEntity;
 
 @Entity(name = "tb_admin")
 @SQLRestriction("enabled = true")
@@ -30,6 +31,6 @@ public class Admin extends AuditableEntity {
     @Column(nullable = false)
     private String phone;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy ="admin", orphanRemoval = true ,fetch = FetchType.EAGER)
     private List<Card> cards;
 }

@@ -1,7 +1,10 @@
 package com.catalogo.catalogo_api.model;
 
 import org.hibernate.annotations.SQLRestriction;
-import com.catalogo.catalogo_api.model.util.AuditableEntity;
+
+import com.catalogo.catalogo_api.util.entity.AuditableEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
@@ -18,6 +21,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Card extends AuditableEntity {
+
+    @ManyToOne
+    @JsonIgnore
+    private Admin admin;
 
     @Column(nullable = false)
     private String title;

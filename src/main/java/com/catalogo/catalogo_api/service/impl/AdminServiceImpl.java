@@ -1,9 +1,10 @@
 package com.catalogo.catalogo_api.service.impl;
 
 import com.catalogo.catalogo_api.model.Admin;
-import com.catalogo.catalogo_api.model.util.AdminException;
 import com.catalogo.catalogo_api.repository.AdminRepository;
 import com.catalogo.catalogo_api.service.AdminService;
+import com.catalogo.catalogo_api.util.exeptions.AdminException;
+
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,8 +1,9 @@
-package com.catalogo.catalogo_api.model.util;
+package com.catalogo.catalogo_api.util.entity;
 
 import java.time.LocalDate;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.Version;

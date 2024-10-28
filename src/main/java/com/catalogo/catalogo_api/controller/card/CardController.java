@@ -24,9 +24,9 @@ public class CardController {
     @Autowired
     private CardService cardService;
 
-    @PostMapping
-    public ResponseEntity<Card> create(@RequestBody CardRequest request){
-        Card card = cardService.create(request.build());
+    @PostMapping("/{adminId}")
+    public ResponseEntity<Card> create(@PathVariable("adminId")Long adminId, @RequestBody CardRequest request){
+        Card card = cardService.create(adminId,request.build());
         return new ResponseEntity<>(card, HttpStatus.CREATED);
     }
 
