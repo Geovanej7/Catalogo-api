@@ -9,6 +9,7 @@ import java.util.List;
 import com.catalogo.catalogo_api.model.Admin;
 import com.catalogo.catalogo_api.service.AdminService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -28,28 +29,33 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
 
+    @Operation(summary = "Create a new admin", description = "Service to create a new admin user.")
     @PostMapping
     public ResponseEntity<Admin> create(@RequestBody @Valid AdminRequest request){
         Admin admin = adminService.create(request.build());
         return new ResponseEntity<Admin>(admin,HttpStatus.CREATED);
     }
 
+    @Operation(summary = "Find all admins", description = "Service to retrieve all admin users.")
     @GetMapping
     public List<Admin> findAll(){
         return adminService.findAll();
     }
 
+    @Operation(summary = "Find admin by ID", description = "Service to retrieve an admin user by their ID.")
     @GetMapping("/{id}")
     public Admin findById(@PathVariable Long id){
         return adminService.findById(id);
     }
 
+    @Operation(summary = "Update an admin by ID", description = "Service to update an existing admin user by their ID.")
     @PutMapping("/{id}")
     public ResponseEntity<Admin> update(@PathVariable("id") Long id,@RequestBody AdminRequest request){
         adminService.update(id,request.build());
         return ResponseEntity.ok().build();
     }
 
+    @Operation(summary = "Delete an admin by ID", description = "Service to delete an existing admin user by their ID.")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
         adminService.delete(id);
