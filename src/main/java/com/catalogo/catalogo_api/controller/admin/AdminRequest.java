@@ -25,12 +25,15 @@ public class AdminRequest {
     @NotBlank(message = "O telefone e de preenchimento obrigatorio")
     private String phone;
 
+    @NotBlank(message = "O Link do instagram e de preenchimento obrigatorio")
+    private String linkInstagram;
     public Admin build(){
 
         return Admin.builder()
         .email(email)
         .password(password)
         .phone(phone)
+        .linkInstagram(linkInstagram)
         .build();
 
     }

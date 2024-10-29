@@ -31,6 +31,9 @@ public class Admin extends AuditableEntity {
     @Column(nullable = false)
     private String phone;
 
+    @Column(nullable = false)
+    private String linkInstagram;
+
     @OneToMany(mappedBy ="admin", orphanRemoval = true ,fetch = FetchType.EAGER)
     private List<Card> cards;
 }
