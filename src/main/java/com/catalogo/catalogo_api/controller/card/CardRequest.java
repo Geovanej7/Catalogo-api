@@ -1,7 +1,6 @@
 package com.catalogo.catalogo_api.controller.card;
 
 import com.catalogo.catalogo_api.model.Card;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CardRequest {
-    
+
     private String title;
 
     private Double price;

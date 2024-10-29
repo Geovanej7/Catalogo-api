@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import com.catalogo.catalogo_api.model.Admin;
 import com.catalogo.catalogo_api.service.AdminService;
+
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +29,7 @@ public class AdminController {
     private AdminService adminService;
 
     @PostMapping
-    public ResponseEntity<Admin> create(@RequestBody AdminRequest request){
+    public ResponseEntity<Admin> create(@RequestBody @Valid AdminRequest request){
         Admin admin = adminService.create(request.build());
         return new ResponseEntity<Admin>(admin,HttpStatus.CREATED);
     }
