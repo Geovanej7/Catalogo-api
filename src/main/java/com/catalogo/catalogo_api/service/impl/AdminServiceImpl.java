@@ -1,6 +1,7 @@
 package com.catalogo.catalogo_api.service.impl;
 
 import com.catalogo.catalogo_api.model.Admin;
+import com.catalogo.catalogo_api.model.emails.EmailService;
 import com.catalogo.catalogo_api.repository.AdminRepository;
 import com.catalogo.catalogo_api.service.AdminService;
 import com.catalogo.catalogo_api.util.exeptions.AdminException;
@@ -18,12 +19,16 @@ public class AdminServiceImpl implements AdminService {
     @Autowired
     private AdminRepository adminRepository;
 
+    @Autowired
+    private EmailService emailService;
+
     @Transactional
-    public Admin create(Admin adminToCreate) {
-        adminToCreate.setEnabled(Boolean.TRUE);
-        adminToCreate.setVersion(1L);
-        adminToCreate.setCreationDate(LocalDate.now());
-        return adminRepository.save(adminToCreate);
+    public Admin create(Admin admin) {
+        admin.setEnabled(Boolean.TRUE);
+        admin.setVersion(1L);
+        admin.setCreationDate(LocalDate.now());
+        emailService.sendEmailWelcome(admin);
+        return adminRepository.save(admin);
     }
 
     @Transactional
