@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import com.catalogo.catalogo_api.model.Admin;
+import com.catalogo.catalogo_api.model.emails.EmailService;
 import com.catalogo.catalogo_api.service.AdminService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -28,6 +29,9 @@ public class AdminController {
     
     @Autowired
     private AdminService adminService;
+
+    @Autowired
+    private EmailService emailService;
 
     @Operation(summary = "Create a new admin", description = "Service to create a new admin user.")
     @PostMapping
@@ -53,6 +57,18 @@ public class AdminController {
     public ResponseEntity<Admin> update(@PathVariable("id") Long id,@RequestBody AdminRequest request){
         adminService.update(id,request.build());
         return ResponseEntity.ok().build();
+    }
+
+    @Operation(summary = "reset password", description = "password reset service.")
+    @PostMapping("/reset-password")
+    public ResponseEntity<String> resetPassword(@RequestBody PasswordResetRequest email){
+        Admin adm = adminService.findUserByEmail(email.getEmail());
+        if (adm != null){
+            emailService.sendEmailPasswordReset(email.getEmail());
+            return ResponseEntity.ok("Password reset email sent.");
+        }else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Admin not found.");
+        }
     }
 
     @Operation(summary = "Delete an admin by ID", description = "Service to delete an existing admin user by their ID.")

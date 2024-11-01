@@ -10,6 +10,8 @@ public interface AdminService {
 
     List<Admin> findAll();
 
+    Admin findUserByEmail(String email);
+
     void update(Long id, Admin newAdmin);
 
     void delete(Long id);

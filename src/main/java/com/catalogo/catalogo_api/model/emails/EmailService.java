@@ -43,6 +43,13 @@ public class EmailService {
         this.sendMailTemplate("welcome_admin.html", admin.getEmail(),
         title, params);
     }
+    public void sendEmailPasswordReset(String email) {
+        String title = "Redefinição de senha";
+        Context params = new Context();
+        params.setVariable("email", email);
+        this.sendMailTemplate("resetPassword.html", email,
+        title, params);
+    }
 
     @Async
     private void sendMailTemplate(String template, String to, String subject, Context params) {
