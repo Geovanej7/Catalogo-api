@@ -13,6 +13,10 @@ public interface AdminService {
     Admin findUserByEmail(String email);
 
     void update(Long id, Admin newAdmin);
+    
+    void SendEmail(Admin admin);
+
+    String resetPassword(String email, String newPassword, String confirmPassword);
 
     void delete(Long id);
 

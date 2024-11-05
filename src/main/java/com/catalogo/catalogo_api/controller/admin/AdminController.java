@@ -4,15 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import com.catalogo.catalogo_api.model.Admin;
-import com.catalogo.catalogo_api.model.emails.EmailService;
 import com.catalogo.catalogo_api.service.AdminService;
-
+import org.springframework.ui.Model;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
-
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,7 +32,7 @@ public class AdminController {
     private AdminService adminService;
 
     @Autowired
-    private EmailService emailService;
+    private SpringTemplateEngine templateEngine;
 
     @Operation(summary = "Create a new admin", description = "Service to create a new admin user.")
     @PostMapping
@@ -59,17 +60,46 @@ public class AdminController {
         return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "reset password", description = "password reset service.")
-    @PostMapping("/reset-password")
-    public ResponseEntity<String> resetPassword(@RequestBody PasswordResetRequest email){
+    @Operation(summary = "reset password by email", description = "service to change user password by email.")
+    @PostMapping("/request-password")
+    public ResponseEntity<String> handlePasswordReset(@RequestBody PasswordResetRequest email){
         Admin adm = adminService.findUserByEmail(email.getEmail());
         if (adm != null){
-            emailService.sendEmailPasswordReset(email.getEmail());
+            adminService.SendEmail(adm);
             return ResponseEntity.ok("Password reset email sent.");
         }else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Admin not found.");
         }
     }
+
+    @Operation(summary = "render password form", description = "service to render the page where the user can change their password")
+    @GetMapping("/send-template")
+    public String showPasswordResetForm(@RequestParam("token") String token, Model model) {
+
+        Context context = new Context();
+        context.setVariable("token", token);
+        String htmlContent = templateEngine.process("passwordResetForm", context);
+        model.addAttribute("htmlContent", htmlContent);
+        return htmlContent;
+    }
+
+    @Operation(summary = "", description = "password reset service.")
+    @PostMapping("/reset-password")
+    public ResponseEntity<String> resetPassword(@RequestParam("token") String token,
+            @RequestParam("newPassword") String newPassword,
+            @RequestParam("confirmPassword") String confirmPassword){
+                
+                if (!newPassword.equals(confirmPassword)) {
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Passwords do not match.");
+                }
+            
+                try {
+                    adminService.resetPassword(token, newPassword, confirmPassword);
+                    return ResponseEntity.ok("Password reset successfully.");
+                } catch (Exception e) {
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error resetting password. Please try again.");
+                }
+            }
 
     @Operation(summary = "Delete an admin by ID", description = "Service to delete an existing admin user by their ID.")
     @DeleteMapping("/{id}")

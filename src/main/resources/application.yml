@@ -1,4 +1,10 @@
 spring:
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    encoding: UTF-8
+    mode: HTML
+    cache: false
   datasource:
     url: jdbc:h2:mem:geo2024
     username: geo
@@ -8,9 +14,9 @@ spring:
     open-in-view: false
     hibernate:
       ddl-auto: create # validate / update / create / create-drop
-    properties:
-      hibernate:
-        format_sql: true
+      properties:
+        hibernate:
+          format_sql: true
   h2:
     console:
       enabled: true

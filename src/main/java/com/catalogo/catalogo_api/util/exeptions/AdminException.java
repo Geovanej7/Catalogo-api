@@ -13,6 +13,10 @@ public class AdminException extends RuntimeException {
         return new AdminException(String.format("email not found", email));
     }
 
+    public static AdminException errorSendingEmail() {
+        return new AdminException(String.format("eror sending email"));
+    }
+
     public static AdminException notMatch() {
         return new AdminException(String.format("Passwords do not match"));
     }

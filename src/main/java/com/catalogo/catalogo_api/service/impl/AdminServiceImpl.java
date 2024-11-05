@@ -1,6 +1,8 @@
 package com.catalogo.catalogo_api.service.impl;
 
 import com.catalogo.catalogo_api.model.Admin;
+import com.catalogo.catalogo_api.model.emails.Email;
+import com.catalogo.catalogo_api.model.emails.EmailRepository;
 import com.catalogo.catalogo_api.model.emails.EmailService;
 import com.catalogo.catalogo_api.repository.AdminRepository;
 import com.catalogo.catalogo_api.service.AdminService;
@@ -9,9 +11,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
+import java.util.UUID;
 
 
 @Service
@@ -22,6 +27,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private EmailRepository emailRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -70,12 +78,48 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Transactional
-    public String resetPassword(String email, String newPassword, String confirmPassword){
-        Optional<Admin> adm = adminRepository.findByEmail(email);
-        Admin admin = adm.get();
-        admin.setPassword(passwordEncoder.encode(newPassword));
-        adminRepository.save(admin); 
-        return "reset password ok";
+    public void SendEmail(Admin admin) {
+
+        Email email = new Email();
+        email.setAdmin(admin);
+        email.setUuid(UUID.randomUUID());
+        email.setExpirationDate(Instant.now().plusMillis(900000));
+        emailRepository.save(email);
+        
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("token", email.getUuid());
+        parameters.put("admin", admin);
+
+        try {
+            emailService.sendEmailPasswordReset(admin, parameters);
+        } catch (Exception e) {
+            throw new AdminException("Error sending email.");
+        }
+
+    }
+
+
+    @Transactional
+    public String resetPassword(String token, String newPassword, String confirmPassword){
+        
+        if (!newPassword.equals(confirmPassword)) {
+            throw new AdminException("password does not match");
+        }else{
+            Email emailPassword = emailRepository.findByUuid(UUID.fromString(token));
+
+            if(emailPassword != null){
+                if(emailPassword.getExpirationDate().compareTo(Instant.now())>=0){
+                    emailPassword.getAdmin().setPassword(passwordEncoder.encode(newPassword));
+                    adminRepository.save(emailPassword.getAdmin());
+                    emailRepository.delete(emailPassword);
+                    return "new password";
+                } else {
+                    throw new AdminException("token invalid");
+                }
+            }else {
+                throw new AdminException("token invalid");
+            }
+        }
 
     }
 

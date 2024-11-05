@@ -1,6 +1,7 @@
 package com.catalogo.catalogo_api.model.emails;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 import java.util.Properties;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -43,12 +44,12 @@ public class EmailService {
         this.sendMailTemplate("welcome_admin.html", admin.getEmail(),
         title, params);
     }
-    public void sendEmailPasswordReset(String email) {
+    public void sendEmailPasswordReset(Admin admin, Map<String, Object> parameters) {
         String title = "Redefinição de senha";
-        Context params = new Context();
-        params.setVariable("email", email);
-        this.sendMailTemplate("resetPassword.html", email,
-        title, params);
+        Context context = new Context();
+        parameters.forEach(context::setVariable);
+        this.sendMailTemplate("resetPassword.html", admin.getEmail(),
+        title, context);
     }
 
     @Async
