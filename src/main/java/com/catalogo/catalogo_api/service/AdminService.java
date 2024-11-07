@@ -14,7 +14,7 @@ public interface AdminService {
 
     void update(Long id, Admin newAdmin);
     
-    void SendEmail(Admin admin);
+    void sendEmailPasswordReset(Admin admin);
 
     String resetPassword(String email, String newPassword, String confirmPassword);
 

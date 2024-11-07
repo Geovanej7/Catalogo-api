@@ -78,7 +78,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Transactional
-    public void SendEmail(Admin admin) {
+    public void sendEmailPasswordReset(Admin admin) {
 
         Email email = new Email();
         email.setAdmin(admin);

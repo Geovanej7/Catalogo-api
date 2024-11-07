@@ -65,7 +65,7 @@ public class AdminController {
     public ResponseEntity<String> handlePasswordReset(@RequestBody PasswordResetRequest email){
         Admin adm = adminService.findUserByEmail(email.getEmail());
         if (adm != null){
-            adminService.SendEmail(adm);
+            adminService.sendEmailPasswordReset(adm);
             return ResponseEntity.ok("Password reset email sent.");
         }else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Admin not found.");
@@ -78,6 +78,7 @@ public class AdminController {
 
         Context context = new Context();
         context.setVariable("token", token);
+        System.out.println(token + "1111111111111111111111111");
         String htmlContent = templateEngine.process("passwordResetForm", context);
         model.addAttribute("htmlContent", htmlContent);
         return htmlContent;
@@ -92,6 +93,8 @@ public class AdminController {
                 if (!newPassword.equals(confirmPassword)) {
                     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Passwords do not match.");
                 }
+
+                System.out.println(token + "22222222222222222222222222222");
             
                 try {
                     adminService.resetPassword(token, newPassword, confirmPassword);
