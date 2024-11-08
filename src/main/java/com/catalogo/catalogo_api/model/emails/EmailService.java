@@ -41,14 +41,14 @@ public class EmailService {
         String title = "Bem vindo ao nosso aplicativo";
         Context params = new Context();
         params.setVariable("admin", admin);
-        this.sendMailTemplate("welcome_admin.html", admin.getEmail(),
+        this.sendMailTemplate("welcome_admin.html", admin.getUser().getPassword(),
         title, params);
     }
     public void sendEmailPasswordReset(Admin admin, Map<String, Object> parameters) {
         String title = "Redefinição de senha";
         Context context = new Context();
         parameters.forEach(context::setVariable);
-        this.sendMailTemplate("resetPassword.html", admin.getEmail(),
+        this.sendMailTemplate("resetPassword.html", admin.getUser().getPassword(),
         title, context);
     }
 

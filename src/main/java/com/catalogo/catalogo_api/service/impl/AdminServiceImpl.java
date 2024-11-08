@@ -1,6 +1,7 @@
 package com.catalogo.catalogo_api.service.impl;
 
 import com.catalogo.catalogo_api.model.Admin;
+import com.catalogo.catalogo_api.model.access.UserService;
 import com.catalogo.catalogo_api.model.emails.Email;
 import com.catalogo.catalogo_api.model.emails.EmailRepository;
 import com.catalogo.catalogo_api.model.emails.EmailService;
@@ -32,14 +33,18 @@ public class AdminServiceImpl implements AdminService {
     private EmailRepository emailRepository;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Transactional
     public Admin create(Admin admin) {
+
+        userService.save(admin.getUser());
         admin.setEnabled(Boolean.TRUE);
         admin.setVersion(1L);
         admin.setCreationDate(LocalDate.now());
-        admin.setPassword(passwordEncoder.encode(admin.getPassword()));
         emailService.sendEmailWelcome(admin);
         return adminRepository.save(admin);
     }
@@ -70,8 +75,6 @@ public class AdminServiceImpl implements AdminService {
         .orElseThrow(() -> AdminException.notFound(id));
 
         adm.setPhone(newAdmin.getPhone());
-        adm.setPassword(newAdmin.getPassword());
-        adm.setEmail(newAdmin.getEmail());
         adm.setLastModifiedDate(LocalDate.now());
         adm.setVersion(adm.getVersion()+1);
         adminRepository.save(adm);
@@ -109,7 +112,7 @@ public class AdminServiceImpl implements AdminService {
 
             if(emailPassword != null){
                 if(emailPassword.getExpirationDate().compareTo(Instant.now())>=0){
-                    emailPassword.getAdmin().setPassword(passwordEncoder.encode(newPassword));
+                    emailPassword.getAdmin().getUser().setPassword(passwordEncoder.encode(newPassword));
                     adminRepository.save(emailPassword.getAdmin());
                     emailRepository.delete(emailPassword);
                     return "new password";

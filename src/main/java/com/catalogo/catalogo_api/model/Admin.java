@@ -1,7 +1,6 @@
 package com.catalogo.catalogo_api.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,6 +9,7 @@ import lombok.Setter;
 import java.util.List;
 import org.hibernate.annotations.SQLRestriction;
 
+import com.catalogo.catalogo_api.model.access.User;
 import com.catalogo.catalogo_api.util.entity.AuditableEntity;
 
 @Entity(name = "tb_admin")
@@ -21,12 +21,9 @@ import com.catalogo.catalogo_api.util.entity.AuditableEntity;
 @NoArgsConstructor
 public class Admin extends AuditableEntity {
 
-    @Column(nullable = false, unique = true)
-    @Email
-    private String email;
-
-    @Column(nullable = false)
-    private String password;
+   @ManyToOne
+   @JoinColumn(name = "usuario_id", nullable = false)
+   private User user;
 
     @Column(nullable = false)
     private String phone;
