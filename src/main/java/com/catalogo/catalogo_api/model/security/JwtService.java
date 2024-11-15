@@ -13,13 +13,23 @@ import java.util.HashMap;
  import io.jsonwebtoken.SignatureAlgorithm;
  import io.jsonwebtoken.io.Decoders;
  import io.jsonwebtoken.security.Keys;
+ import jakarta.annotation.PostConstruct;
+
  
  @Service
  public class JwtService {
-    @Value("${security.jwt.secret-key}")
+
+    @Value("${spring.security.jwt.secret-key}")
     private String secretKey;
-    @Value("${security.jwt.expiration-time}")
-    private long jwtExpiration;
+    @Value("${spring.security.jwt.expiration-time}")
+    private Long jwtExpiration;
+
+    @PostConstruct
+    public void init() {
+    System.out.println("Secret Key--------------------------------: " + secretKey);
+    System.out.println("Expiration Time--------------------------------------: " + jwtExpiration);
+}
+    
     public String extractUsername(String token) {
         
         return extractClaim(token, Claims::getSubject);

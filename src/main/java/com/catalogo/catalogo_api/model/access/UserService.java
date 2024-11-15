@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
+import org.springframework.context.annotation.Lazy;
 import com.catalogo.catalogo_api.model.security.JwtService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,12 +21,15 @@ public class UserService implements UserDetailsService {
   private UserRepository repository;
 
   @Autowired
-    private JwtService jwtService;
+  private JwtService jwtService;
 
+  @Lazy
+  @Autowired
+  private AuthenticationManager authenticationManager;
 
-  private final PasswordEncoder passwordEncoder;
+  @Autowired
+  private PasswordEncoder passwordEncoder;
 
-  private final AuthenticationManager authenticationManager;
 
   public UserService(UserRepository userRepository, AuthenticationManager authenticationManager,
       PasswordEncoder passwordEncoder) {
