@@ -16,6 +16,7 @@ import com.catalogo.catalogo_api.model.access.UserRepository;
  public class ApplicationConfiguration {
 
     private final UserRepository userRepository;
+    
     public ApplicationConfiguration(UserRepository userRepository) {
         this.userRepository = userRepository;
     }

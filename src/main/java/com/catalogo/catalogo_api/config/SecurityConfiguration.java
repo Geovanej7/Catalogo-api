@@ -32,8 +32,7 @@ import com.catalogo.catalogo_api.model.security.JwtAuthenticationFilter;
             .csrf(c -> c.disable())
             .authorizeHttpRequests(authorize -> authorize
                 .requestMatchers(HttpMethod.POST, "/controller/admin").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api-docs/*").permitAll()
-                .requestMatchers(HttpMethod.GET, "/swagger-ui/*").permitAll()
+                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                 .anyRequest().authenticated()
             )
             .sessionManagement((session) -> session
