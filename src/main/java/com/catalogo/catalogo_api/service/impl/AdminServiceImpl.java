@@ -41,10 +41,10 @@ public class AdminServiceImpl implements AdminService {
     @Transactional
     public Admin create(Admin admin) {
         
+        userService.save(admin.getUser());
         admin.setEnabled(Boolean.TRUE);
         admin.setVersion(1L);
         admin.setCreationDate(LocalDate.now());
-        userService.save(admin.getUser());
         emailService.sendEmailWelcome(admin);
         return adminRepository.save(admin);
     }
