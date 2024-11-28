@@ -12,5 +12,5 @@ import com.catalogo.catalogo_api.model.Admin;
 @Repository
 public interface AdminRepository extends JpaRepository<Admin,Long> {
 
-    Optional<Admin> findByUser_Username(String email);
+    Optional<Admin> findByEmail(String email);
 }

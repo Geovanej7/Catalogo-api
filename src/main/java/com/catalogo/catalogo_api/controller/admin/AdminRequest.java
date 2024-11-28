@@ -1,9 +1,6 @@
 package com.catalogo.catalogo_api.controller.admin;
 
-import java.util.Arrays;
-
 import com.catalogo.catalogo_api.model.Admin;
-import com.catalogo.catalogo_api.model.access.User;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -31,18 +28,13 @@ public class AdminRequest {
     @NotBlank(message = "O Link do instagram e de preenchimento obrigatorio")
     private String linkInstagram;
 
-    public User buildUser() {
-        return User.builder()
-            .username(email)
-            .password(password)
-            .roles(Arrays.asList(User.ROLE_ADMIN))
-            .build();
-    }
+    
 
     public Admin build(){
 
         return Admin.builder()
-        .user(buildUser())
+        .email(email)
+        .password(password)
         .phone(phone)
         .linkInstagram(linkInstagram)
         .build();

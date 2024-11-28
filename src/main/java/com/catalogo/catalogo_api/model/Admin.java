@@ -8,8 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.util.List;
 import org.hibernate.annotations.SQLRestriction;
-
-import com.catalogo.catalogo_api.model.access.User;
 import com.catalogo.catalogo_api.util.entity.AuditableEntity;
 
 @Entity(name = "tb_admin")
@@ -21,9 +19,12 @@ import com.catalogo.catalogo_api.util.entity.AuditableEntity;
 @NoArgsConstructor
 public class Admin extends AuditableEntity {
 
-   @ManyToOne
-   @JoinColumn(name = "usuario_id", nullable = false)
-   private User user;
+  
+    @Column(nullable = false)
+    private String email;
+    
+    @Column(nullable = false)
+    private String password;
 
     @Column(nullable = false)
     private String phone;

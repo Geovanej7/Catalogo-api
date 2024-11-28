@@ -1,14 +1,12 @@
 package com.catalogo.catalogo_api.service.impl;
 
 import com.catalogo.catalogo_api.model.Admin;
-import com.catalogo.catalogo_api.model.access.UserService;
 import com.catalogo.catalogo_api.model.emails.Email;
 import com.catalogo.catalogo_api.model.emails.EmailRepository;
 import com.catalogo.catalogo_api.model.emails.EmailService;
 import com.catalogo.catalogo_api.repository.AdminRepository;
 import com.catalogo.catalogo_api.service.AdminService;
 import com.catalogo.catalogo_api.util.exeptions.AdminException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,16 +30,10 @@ public class AdminServiceImpl implements AdminService {
     @Autowired
     private EmailRepository emailRepository;
 
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     @Transactional
     public Admin create(Admin admin) {
         
-        userService.save(admin.getUser());
         admin.setEnabled(Boolean.TRUE);
         admin.setVersion(1L);
         admin.setCreationDate(LocalDate.now());
@@ -58,7 +50,7 @@ public class AdminServiceImpl implements AdminService {
     
     @Transactional
     public Admin findUserByEmail(String email) {
-        return adminRepository.findByUser_Username(email)
+        return adminRepository.findByEmail(email)
         .orElseThrow(() -> AdminException.emailNotFound(email));
     }
 
@@ -112,7 +104,7 @@ public class AdminServiceImpl implements AdminService {
 
             if(emailPassword != null){
                 if(emailPassword.getExpirationDate().compareTo(Instant.now())>=0){
-                    emailPassword.getAdmin().getUser().setPassword(passwordEncoder.encode(newPassword));
+                    emailPassword.getAdmin().setPassword(newPassword);
                     adminRepository.save(emailPassword.getAdmin());
                     emailRepository.delete(emailPassword);
                     return "new password";
